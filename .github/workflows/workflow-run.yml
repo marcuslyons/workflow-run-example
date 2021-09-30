@@ -1,0 +1,17 @@
+name: Workflow Run
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types: [completed]
+
+jobs:
+  install-and-test:
+    name: Install and test
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success'}}
+
+    steps:
+      - name: Install Dependencies
+        run: npm ci
+      - name: Test
+        run: npm run test:ci;
