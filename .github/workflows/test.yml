@@ -1,12 +1,11 @@
 name: Run Tests
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
   install-and-test:
-    name: Install and test
     runs-on: ubuntu-latest
 
     steps:
@@ -16,3 +15,10 @@ jobs:
         run: npm ci
       - name: Test
         run: npm run test:ci;
+      - name: Build
+        run: npm run build;
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-artifact
+          path: ./build
